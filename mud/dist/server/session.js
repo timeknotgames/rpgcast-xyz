@@ -1,0 +1,121 @@
+// ═══════════════════════════════════════════════════════════════
+// CRYING DEPTHS MUD — Session Manager
+// Manages player connections (telnet + WebSocket), creates PlayerState
+// ═══════════════════════════════════════════════════════════════
+import { CHAR_EMOJI } from '../data/emoji.js';
+import { saveCharacter } from '../auth/auth-handler.js';
+let sessionCounter = 0;
+const sessions = new Map();
+/** Create a new player session */
+export function createSession(name, transport, send, system = 'dice-godz', startRoomId = 'R01') {
+    sessionCounter++;
+    const id = `player_${sessionCounter}_${Date.now()}`;
+    const playerState = {
+        id,
+        name: name || `Adventurer_${sessionCounter}`,
+        emoji: CHAR_EMOJI.player,
+        currentRoomId: startRoomId,
+        activeSystem: system,
+        inventory: [],
+        karma: 50,
+        visitedRooms: new Set([startRoomId]),
+        flags: {},
+    };
+    const session = {
+        id,
+        playerState,
+        transport,
+        connectedAt: new Date(),
+        lastActivity: new Date(),
+        send,
+        dbUser: null,
+        dbCharacterId: null,
+        sessionToken: null,
+    };
+    sessions.set(id, session);
+    return session;
+}
+/** Remove a session */
+export function removeSession(id) {
+    sessions.delete(id);
+}
+/** Get all active sessions */
+export function getAllSessions() {
+    return Array.from(sessions.values());
+}
+/** Get session by ID */
+export function getSession(id) {
+    return sessions.get(id);
+}
+/** Update last activity timestamp */
+export function touchSession(id) {
+    const session = sessions.get(id);
+    if (session)
+        session.lastActivity = new Date();
+}
+/** Broadcast a message to all sessions in a room */
+export function broadcastToRoom(roomId, message, excludeId) {
+    for (const session of sessions.values()) {
+        if (session.playerState.currentRoomId === roomId && session.id !== excludeId) {
+            session.send(message);
+        }
+    }
+}
+/** Broadcast to ALL connected sessions */
+export function broadcastGlobal(message) {
+    for (const session of sessions.values()) {
+        session.send(message);
+    }
+}
+/** Session count */
+export function sessionCount() {
+    return sessions.size;
+}
+/** Save a session's character state to database */
+export async function saveSessionCharacter(session) {
+    if (!session.dbCharacterId)
+        return;
+    const p = session.playerState;
+    await saveCharacter(session.dbCharacterId, {
+        currentRoomId: p.currentRoomId,
+        visitedRooms: Array.from(p.visitedRooms),
+        karma: p.karma,
+        flags: p.flags,
+        inventory: p.inventory,
+        diceGodzSheet: p.diceGodzSheet,
+        pathfinderSheet: p.pathfinderSheet,
+        mm3eSheet: p.mm3eSheet,
+        activeSystem: p.activeSystem,
+    });
+}
+/** Find session by username (for whisper by account name) */
+export function findSessionByUsername(username) {
+    for (const session of sessions.values()) {
+        if (session.dbUser?.username.toLowerCase() === username.toLowerCase()) {
+            return session;
+        }
+    }
+    return undefined;
+}
+// ── WELCOME BANNER ──
+export const WELCOME_BANNER = `
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ⚔️  THE CRYING DEPTHS MUD  ⚔️                               ║
+║   ───────────────────────────                                 ║
+║   A Quillverse Adventure                                      ║
+║                                                               ║
+║   Two campaigns await:                                        ║
+║     🏔️  Siege of the Crying Depths — dungeon crawl             ║
+║     🏴‍☠️  Fugitive Seas — pirate democracy on the open ocean    ║
+║                                                               ║
+║   Three game systems:                                         ║
+║     🎲 Dice Godz (TEK8 attainment)                            ║
+║     📜 Pathfinder 1e (d20 + modifiers)                         ║
+║     🦸 Mutants & Masterminds 3e (power levels)                 ║
+║                                                               ║
+║   Type "help" for commands                                    ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+`;
+//# sourceMappingURL=session.js.map

@@ -1,0 +1,31 @@
+import { World } from './world.js';
+export declare class GameLoop {
+    world: World;
+    private tickInterval;
+    constructor(world: World);
+    processInput(playerId: string, rawInput: string): string;
+    private handleMove;
+    private handleSearch;
+    private handleUse;
+    private handleEquip;
+    private handleUnequip;
+    private handleAttack;
+    private handleDefend;
+    private handleFlee;
+    private handleCheck;
+    private doRoomCheck;
+    private handleRoll;
+    private handleCast;
+    private handleMusic;
+    private handleSheet;
+    private handleSystemSwitch;
+    private handleSay;
+    private handleYell;
+    private handleWhisper;
+    private handleWho;
+    private handleGM;
+    private handleLeaderboard;
+    private startTick;
+    private tick;
+    stop(): void;
+}

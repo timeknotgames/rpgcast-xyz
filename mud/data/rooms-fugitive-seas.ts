@@ -401,7 +401,7 @@ export const FUGITIVE_SEAS_ROOMS: Room[] = [
       { direction: 'west', targetRoomId: 'F16', description: 'Back to the floating temple' },
     ],
     items: [
-      { id: 'axe_of_estovers', name: 'Axe of Estovers', emoji: '🪓', description: 'A branch that grew overnight from the sacred tree, shaped like an axe by Queen Mab\'s will. Advantage on rolls to destroy machinery. Double damage to constructs when wielded under the name Captain Ludd. Cannot harm living beings — passes through like smoke.', pickupable: true, equippable: true },
+      { id: 'axe_of_estovers', name: 'Axe of Estovers', emoji: '🪓', description: 'A branch that grew overnight from the sacred tree, shaped like an axe by Queen Mab\'s will. Advantage on rolls to destroy machinery. Double damage to constructs when wielded under the name Captain Ludd. Cannot harm living beings — passes through like smoke.', pickupable: true },
     ],
     npcs: [],
     checks: [

@@ -345,7 +345,8 @@ export type CommandName =
   | 'attack' | 'defend' | 'flee' | 'cast' | 'sing' | 'play'
   | 'roll' | 'check'
   | 'system' | 'help' | 'map' | 'who' | 'say' | 'yell' | 'whisper'
-  | 'save' | 'quit';
+  | 'save' | 'quit'
+  | 'leaderboard' | 'lb' | 'gm';
 
 export interface ParsedCommand {
   command: CommandName;

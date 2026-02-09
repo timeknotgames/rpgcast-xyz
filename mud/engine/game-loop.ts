@@ -289,17 +289,17 @@ export class GameLoop {
       case 'pathfinder': {
         const bab = player.pathfinderSheet?.bab || 0;
         const strMod = player.pathfinderSheet?.abilityMods?.STR || 0;
-        const result = pfAttack(bab + strMod, 15, '1d8', strMod, 2);
+        const result = pfAttack(bab, strMod, 0, 15, { count: 1, sides: 8 }, strMod);
         let msg = `⚔️ You attack ${npc.emoji} ${npc.name}!\n`;
-        msg += `  Attack: d20+${bab + strMod} = ${result.roll} vs AC 15\n`;
-        msg += result.hit ? `  💥 Hit! ${result.damage} damage.` : `  💨 Miss!`;
-        if (result.critical) msg += ' CRITICAL!';
+        msg += `  Attack: d20+${bab + strMod} = ${result.totalAttack} vs AC 15\n`;
+        msg += result.hit ? `  💥 Hit! ${result.totalDamage} damage.` : `  💨 Miss!`;
+        if (result.criticalConfirmed) msg += ' CRITICAL!';
         return msg;
       }
       case 'mm3e': {
         const fgt = player.mm3eSheet?.abilities.FGT || 0;
         const str = player.mm3eSheet?.abilities.STR || 0;
-        const result = mm3eAttack(fgt, 'close', false);
+        const result = mm3eAttack(fgt, 15, 'close');
         let msg = `⚔️ You attack ${npc.emoji} ${npc.name}!\n`;
         msg += `  Attack: d20+${fgt} = ${result.total} vs Parry\n`;
         msg += result.hit ? `  💥 Hit! Effect DC ${15 + str} Toughness save.` : `  💨 Miss!`;

@@ -3,43 +3,33 @@
 // Same instance as rpgcast-xyz (sweet-heart-33815315)
 // Uses 'crying_depths' schema to avoid table collisions
 // ═══════════════════════════════════════════════════════════════
-
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import ws from 'ws';
 import * as schema from './schema.js';
-
 // Neon requires WebSocket for serverless driver
 neonConfig.webSocketConstructor = ws;
-
 const DATABASE_URL = process.env.DATABASE_URL;
-
 if (!DATABASE_URL) {
-  console.warn(
-    '⚠️  DATABASE_URL not set — auth/persistence disabled.\n' +
-    '   Set DATABASE_URL to enable character saves, leaderboards, and auth.\n' +
-    '   The MUD will still run in anonymous/ephemeral mode.'
-  );
+    console.warn('⚠️  DATABASE_URL not set — auth/persistence disabled.\n' +
+        '   Set DATABASE_URL to enable character saves, leaderboards, and auth.\n' +
+        '   The MUD will still run in anonymous/ephemeral mode.');
 }
-
 export const pool = DATABASE_URL ? new Pool({ connectionString: DATABASE_URL }) : null;
-export const db = pool ? drizzle(pool as any, { schema }) : null;
-
+export const db = pool ? drizzle(pool, { schema }) : null;
 /** Check if persistence is available */
-export function isPersistenceEnabled(): boolean {
-  return db !== null;
+export function isPersistenceEnabled() {
+    return db !== null;
 }
-
 /** Initialize the crying_depths schema (run on first startup) */
-export async function initializeSchema(): Promise<void> {
-  if (!pool) return;
-
-  try {
-    // Create schema if not exists
-    await pool.query('CREATE SCHEMA IF NOT EXISTS crying_depths');
-
-    // Create users table
-    await pool.query(`
+export async function initializeSchema() {
+    if (!pool)
+        return;
+    try {
+        // Create schema if not exists
+        await pool.query('CREATE SCHEMA IF NOT EXISTS crying_depths');
+        // Create users table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.users (
         id SERIAL PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
@@ -57,9 +47,8 @@ export async function initializeSchema(): Promise<void> {
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    // Create characters table
-    await pool.query(`
+        // Create characters table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.characters (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -80,9 +69,8 @@ export async function initializeSchema(): Promise<void> {
         last_played TIMESTAMP
       )
     `);
-
-    // Create sessions table
-    await pool.query(`
+        // Create sessions table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.sessions (
         sid TEXT PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -93,9 +81,8 @@ export async function initializeSchema(): Promise<void> {
         last_activity TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    // Create leaderboards table
-    await pool.query(`
+        // Create leaderboards table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.leaderboards (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -113,9 +100,8 @@ export async function initializeSchema(): Promise<void> {
         updated_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    // Create custom_items table
-    await pool.query(`
+        // Create custom_items table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.custom_items (
         id SERIAL PRIMARY KEY,
         created_by INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -131,9 +117,8 @@ export async function initializeSchema(): Promise<void> {
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    // Create custom_classes table
-    await pool.query(`
+        // Create custom_classes table
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.custom_classes (
         id SERIAL PRIMARY KEY,
         created_by INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -147,9 +132,8 @@ export async function initializeSchema(): Promise<void> {
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    // Create custom_species table (extends custom_classes for species-specific data)
-    await pool.query(`
+        // Create custom_species table (extends custom_classes for species-specific data)
+        await pool.query(`
       CREATE TABLE IF NOT EXISTS crying_depths.custom_species (
         id SERIAL PRIMARY KEY,
         created_by INTEGER NOT NULL REFERENCES crying_depths.users(id),
@@ -170,9 +154,10 @@ export async function initializeSchema(): Promise<void> {
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     `);
-
-    console.log('✅ Database schema initialized (crying_depths)');
-  } catch (err) {
-    console.error('❌ Failed to initialize database schema:', err);
-  }
+        console.log('✅ Database schema initialized (crying_depths)');
+    }
+    catch (err) {
+        console.error('❌ Failed to initialize database schema:', err);
+    }
 }
+//# sourceMappingURL=db.js.map

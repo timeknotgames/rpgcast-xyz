@@ -185,12 +185,12 @@ export async function parseGMCommand(userId: number, input: string): Promise<str
       const filter = parts[1]?.toLowerCase();
       if (!filter) return renderKalaList();
       // Filter by element
-      const elementMap: Record<string, CoreElement> = {
+      const elementMap: Record<string, string> = {
         fire: 'Fire', earth: 'Earth', air: 'Air', water: 'Water',
-        chaos: 'Chaos', ether: 'Ether', order: 'Order', money: 'Money',
+        chaos: 'Chaos', ether: 'Ether', order: 'Order', coin: 'Coin',
       };
       if (elementMap[filter]) {
-        const kalas = getKalasByElement(elementMap[filter]);
+        const kalas = getKalasByElement(elementMap[filter] as any);
         return `═══ ${elementMap[filter].toUpperCase()} KALAS ═══\n` +
           kalas.map(k => `  [${k.id}] ${k.sanskrit} — ${k.english} (${k.abilities.join('+')})`).join('\n');
       }

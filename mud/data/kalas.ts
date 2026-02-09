@@ -5,13 +5,13 @@
 // Source: Kama Sutra via sanskritimagazine.com; Quillverse adaptation
 // ═══════════════════════════════════════════════════════════════
 
-import type { CoreElement } from '../engine/types.js';
+import type { Element } from '../engine/types.js';
 
 // ── ABILITIES (8 core, mapped to dice/elements) ──
 
 export type Ability = 'STR' | 'AGI' | 'END' | 'PER' | 'INT' | 'WIL' | 'CHA' | 'LCK';
 
-export const ABILITY_ELEMENT: Record<Ability, CoreElement> = {
+export const ABILITY_ELEMENT: Record<Ability, Element> = {
   AGI: 'Fire',    // D4 — Sight
   END: 'Earth',   // D6 — Smell
   STR: 'Air',     // D8 — Touch
@@ -19,7 +19,7 @@ export const ABILITY_ELEMENT: Record<Ability, CoreElement> = {
   PER: 'Ether',   // D12 — Sound
   CHA: 'Water',   // D20 — Taste/Empathy
   INT: 'Order',   // D100 — Focus (emergent)
-  LCK: 'Money',   // D2 — Instinct (emergent)
+  LCK: 'Coin',    // D2 — Instinct (emergent)
 };
 
 // ── KALA DEFINITION ──
@@ -30,7 +30,7 @@ export interface Kala {
   english: string;       // English translation
   description: string;   // What this art encompasses
   abilities: [Ability, Ability]; // Two associated abilities
-  element: CoreElement;  // Primary elemental affinity
+  element: Element;  // Primary elemental affinity
   category: KalaCategory;
 }
 
@@ -114,8 +114,8 @@ export const KALAS: Kala[] = [
   // ═══ MASTERY ARTS (57-64) ═══
   { id: 57, sanskrit: 'Abhidhana-kosha',        english: 'Lexicography',      description: 'Art of lexicography and knowledge of meters',                     abilities: ['INT', 'PER'], element: 'Order', category: 'mastery' },
   { id: 58, sanskrit: 'Vastra-gopana',          english: 'Cloth Concealment', description: 'Art of concealing cloths — the hidden and the revealed',          abilities: ['AGI', 'INT'], element: 'Chaos', category: 'mastery' },
-  { id: 59, sanskrit: 'Dyuta-visesha',          english: 'Gambling',          description: 'Art of knowing games of chance — reading probability',            abilities: ['INT', 'LCK'], element: 'Money', category: 'mastery' },
-  { id: 60, sanskrit: 'Akarsha-krida',          english: 'Dice & Magnet',     description: 'Art of dice games and magnetic attraction',                       abilities: ['LCK', 'WIL'], element: 'Money', category: 'mastery' },
+  { id: 59, sanskrit: 'Dyuta-visesha',          english: 'Gambling',          description: 'Art of knowing games of chance — reading probability',            abilities: ['INT', 'LCK'], element: 'Coin', category: 'mastery' },
+  { id: 60, sanskrit: 'Akarsha-krida',          english: 'Dice & Magnet',     description: 'Art of dice games and magnetic attraction',                       abilities: ['LCK', 'WIL'], element: 'Coin', category: 'mastery' },
   { id: 61, sanskrit: 'Balaka-kridanaka',       english: "Children's Toys",   description: 'Art of using toys — play as education and joy',                   abilities: ['AGI', 'CHA'], element: 'Water', category: 'mastery' },
   { id: 62, sanskrit: 'Vainayiki Vidya',        english: 'Discipline',        description: 'Art of enforcing discipline — order through wisdom',              abilities: ['WIL', 'INT'], element: 'Order', category: 'mastery' },
   { id: 63, sanskrit: 'Vaijayiki Vidya',        english: 'Victory',           description: 'Art of gaining victory — strategy and triumph',                   abilities: ['STR', 'WIL'], element: 'Air',   category: 'mastery' },
@@ -131,7 +131,7 @@ export interface Vidya {
   description: string;
   category: 'veda' | 'upaveda' | 'vedanga';
   abilities: [Ability, Ability];
-  element: CoreElement;
+  element: Element;
 }
 
 export const VIDYAS: Vidya[] = [
@@ -162,7 +162,7 @@ export interface CustomSkill {
   name: string;
   description: string;
   abilities: [Ability, Ability];
-  element: CoreElement;
+  element: Element;
   affinity: 'major' | 'minor' | 'standard';
   baseValue: number;       // Average of two abilities (0-20)
   currentValue: number;    // After training/XP
@@ -174,7 +174,7 @@ export function createCustomSkill(
   name: string,
   description: string,
   abilities: [Ability, Ability],
-  element: CoreElement,
+  element: Element,
   affinity: 'major' | 'minor' | 'standard' = 'standard',
 ): CustomSkill {
   return {
@@ -197,7 +197,7 @@ export interface GemstoneSpecies {
   speciesId: string;         // e.g. 'ruby', 'labradorite', 'coral'
   name: string;
   emoji: string;
-  petal: CoreElement;        // Which TEK8 petal (determines lower trigram)
+  petal: Element;        // Which TEK8 petal (determines lower trigram)
   hexagramNumber: number;    // 1-64 (I Ching mapping)
   description: string;
   kalaAffinity: number;      // Which Kala (1-64) this species has natural bonus in
@@ -260,7 +260,7 @@ export function getVidya(id: number): Vidya | undefined {
   return VIDYAS.find(v => v.id === id);
 }
 
-export function getKalasByElement(element: CoreElement): Kala[] {
+export function getKalasByElement(element: Element): Kala[] {
   return KALAS.filter(k => k.element === element);
 }
 
