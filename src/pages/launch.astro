@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LaunchGuide from '../islands/LaunchGuide';
+---
+
+<Layout title="Launch Token | RPGCast.xyz">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Launch Your Token</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">
+        Create and launch your token directly on pump.fun without leaving RPGCast.xyz.
+        Your token is automatically registered in the Quillverse ecosystem.
+      </p>
+      <div class="mt-4 inline-flex items-center gap-2 text-sm text-purple-400 bg-purple-900/20 px-4 py-2 rounded-full">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        Powered by PumpPortal - instant pump.fun integration
+      </div>
+    </div>
+
+    <LaunchGuide client:load />
+
+    <div class="mt-12 text-center text-sm text-gray-500">
+      <p>
+        Tokens are created on pump.fun's bonding curve.
+        Trading begins immediately after creation.
+      </p>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,110 @@
+---
+import '../styles/global.css';
+import { PLATFORM } from '../lib/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'RPGCast.xyz - Curated Gateway to Quillverse Tokens',
+  description = 'Discover, launch, and play with tokens in the Rainbow Roads MMORPG ecosystem. Powered by pump.fun.'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-[#0f0f1a]">
+    <!-- Navigation -->
+    <nav class="border-b border-gray-800 bg-[#0f0f1a]/90 backdrop-blur-sm sticky top-0 z-40">
+      <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <!-- Logo -->
+          <a href="/" class="flex items-center gap-3">
+            <span class="text-2xl font-bold gradient-text">RPGCast</span>
+            <span class="text-xs text-gray-500 hidden sm:block">.xyz</span>
+          </a>
+
+          <!-- Nav Links -->
+          <div class="flex items-center gap-6">
+            <a href="/discover" class="text-gray-400 hover:text-white transition">Discover</a>
+            <a href="/launch" class="text-gray-400 hover:text-white transition">Launch</a>
+            <a href="/champions" class="text-gray-400 hover:text-white transition">Champions</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-20 py-12 bg-[#0a0a14]">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <!-- About -->
+          <div>
+            <h4 class="font-bold mb-3 gradient-text">RPGCast.xyz</h4>
+            <p class="text-sm text-gray-400">
+              The curated gateway to Quillverse tokens.
+              Filter the noise, find the signal.
+            </p>
+          </div>
+
+          <!-- Ecosystem -->
+          <div>
+            <h4 class="font-bold mb-3 text-white">Ecosystem</h4>
+            <ul class="text-sm text-gray-400 space-y-2">
+              <li><a href={PLATFORM.ecosystem.quillverse} target="_blank" class="hover:text-white transition">Quillverse.org</a></li>
+              <li><a href={PLATFORM.ecosystem['8xm']} target="_blank" class="hover:text-white transition">8xM.fun</a></li>
+              <li><a href={PLATFORM.ecosystem.quilu} target="_blank" class="hover:text-white transition">quilu.xyz</a></li>
+            </ul>
+          </div>
+
+          <!-- Partners -->
+          <div>
+            <h4 class="font-bold mb-3 text-white">Partners</h4>
+            <ul class="text-sm text-gray-400 space-y-2">
+              {PLATFORM.partners.map(partner => (
+                <li>
+                  <a href={partner.url} target="_blank" class="hover:text-white transition">
+                    {partner.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Resources -->
+          <div>
+            <h4 class="font-bold mb-3 text-white">Resources</h4>
+            <ul class="text-sm text-gray-400 space-y-2">
+              <li><a href={PLATFORM.links.pumpfun} target="_blank" class="hover:text-white transition">pump.fun</a></li>
+              <li><a href="/champions/register" class="hover:text-white transition">Become a Champion</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom -->
+        <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-xs text-gray-500">
+            A Joint Project By 7abcs.com, TimeKnot Games & The Paladin Initiative
+          </p>
+          <p class="text-xs text-gray-500">
+            Powered by pump.fun | Built for the Rainbow Roads MMORPG
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

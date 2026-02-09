@@ -1,0 +1,37 @@
+{
+  "name": "rpgcast-xyz",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Curated pump.fun gateway for Quillverse tokens",
+  "workspaces": ["mud"],
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler pages deploy dist",
+    "mud:dev": "npm run dev --workspace=mud",
+    "mud:build": "npm run build --workspace=mud",
+    "mud:start": "npm run start --workspace=mud"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/react": "^4.4.2",
+    "@neondatabase/serverless": "^1.0.2",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-react-ui": "^0.9.39",
+    "@solana/wallet-adapter-wallets": "^0.19.37",
+    "@solana/web3.js": "^1.98.4",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^5.16.11",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

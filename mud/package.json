@@ -1,0 +1,24 @@
+{
+  "name": "crying-depths-mud",
+  "version": "1.0.0",
+  "description": "The Crying Depths MUD — A Quillverse Adventure (Dice Godz + PF1e + M&M 3e)",
+  "type": "module",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "dev": "tsx server/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.0",
+    "drizzle-orm": "^0.38.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.7.0",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,177 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getDb } from '../../lib/db';
+import { TEK8_GUILDS } from '../../lib/tek8-guilds';
+import { PETALS, POSITIONS } from '../../lib/tek8-roads';
+import { GAME_ROLES } from '../../lib/config';
+
+const { mint } = Astro.params;
+
+let token = null;
+let error = '';
+
+try {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM registered_tokens WHERE mint_address = ${mint}
+  `;
+  if (result.length > 0) {
+    token = result[0];
+  }
+} catch (e: any) {
+  error = e.message;
+}
+
+const guild = token?.tek8_guild ? TEK8_GUILDS.find(g => g.id === token.tek8_guild) : null;
+const petal = token?.tek8_guild ? PETALS[token.tek8_guild] : null;
+const gameRole = token?.game_role ? GAME_ROLES.find(r => r.id === token.game_role) : null;
+---
+
+<Layout title={token ? `${token.name} | RPGCast.xyz` : 'Token Not Found | RPGCast.xyz'}>
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    {!token ? (
+      <div class="text-center py-20">
+        <h1 class="text-2xl font-bold mb-4">Token Not Found</h1>
+        <p class="text-gray-400 mb-6">
+          {error || 'This token is not registered with RPGCast.xyz'}
+        </p>
+        <a href="/discover" class="btn btn-primary">Browse Tokens</a>
+      </div>
+    ) : (
+      <div>
+        <!-- Back Link -->
+        <a href="/discover" class="text-gray-400 hover:text-white mb-6 inline-block">
+          ← Back to Discovery
+        </a>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Token Image -->
+          <div>
+            <div class="aspect-square rounded-xl overflow-hidden bg-gray-800">
+              {token.image_url ? (
+                <img
+                  src={token.image_url}
+                  alt={token.name}
+                  class="w-full h-full object-cover"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-6xl text-gray-600">
+                  {token.symbol?.charAt(0) || '?'}
+                </div>
+              )}
+            </div>
+
+            <!-- Trading Links -->
+            <div class="mt-4 space-y-2">
+              <a
+                href={`https://pump.fun/coin/${token.mint_address}`}
+                target="_blank"
+                class="btn btn-gold w-full"
+              >
+                Trade on pump.fun
+              </a>
+              <a
+                href={`https://solscan.io/token/${token.mint_address}`}
+                target="_blank"
+                class="btn btn-secondary w-full"
+              >
+                View on Solscan
+              </a>
+            </div>
+          </div>
+
+          <!-- Token Info -->
+          <div>
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h1 class="text-3xl font-bold">{token.name}</h1>
+                <p class="text-xl text-gray-400">${token.symbol}</p>
+              </div>
+              {token.verification_status === 'verified' && (
+                <span class="badge badge-verified">Verified</span>
+              )}
+              {token.verification_status === 'pending' && (
+                <span class="badge badge-pending">Unverified</span>
+              )}
+            </div>
+
+            <!-- Guild Badge -->
+            {guild && (
+              <div class="card mb-4" style={`border-color: ${guild.color}40`}>
+                <div class="flex items-center gap-3 mb-2">
+                  <span
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                    style={`background-color: ${guild.color}20; color: ${guild.color}`}
+                  >
+                    {guild.dice}
+                  </span>
+                  <div>
+                    <p class="font-bold" style={`color: ${guild.color}`}>{guild.element}</p>
+                    <p class="text-sm text-gray-400">{guild.name}</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-400">{guild.description}</p>
+              </div>
+            )}
+
+            <!-- Game Info -->
+            <div class="card mb-4">
+              <h3 class="font-bold mb-3">Game Attributes</h3>
+              <dl class="space-y-2 text-sm">
+                {token.rainbow_road && (
+                  <div class="flex justify-between">
+                    <dt class="text-gray-400">Rainbow Road</dt>
+                    <dd class="text-white">{token.rainbow_road}</dd>
+                  </div>
+                )}
+                {gameRole && (
+                  <div class="flex justify-between">
+                    <dt class="text-gray-400">Game Role</dt>
+                    <dd class="text-white">{gameRole.name}</dd>
+                  </div>
+                )}
+                {token.nation_name && (
+                  <div class="flex justify-between">
+                    <dt class="text-gray-400">Nation</dt>
+                    <dd class="text-white">{token.nation_name}</dd>
+                  </div>
+                )}
+                {token.bonding_curve_complete && (
+                  <div class="flex justify-between">
+                    <dt class="text-gray-400">Status</dt>
+                    <dd class="text-green-400">Graduated (Bonding Curve Complete)</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+
+            <!-- Technical Info -->
+            <div class="card">
+              <h3 class="font-bold mb-3">Token Details</h3>
+              <dl class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <dt class="text-gray-400">Mint Address</dt>
+                  <dd class="text-white font-mono text-xs">
+                    {token.mint_address.slice(0, 8)}...{token.mint_address.slice(-8)}
+                  </dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-400">Creator</dt>
+                  <dd class="text-white font-mono text-xs">
+                    {token.creator_wallet?.slice(0, 8)}...{token.creator_wallet?.slice(-8)}
+                  </dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-400">Registered</dt>
+                  <dd class="text-white">
+                    {new Date(token.registered_at).toLocaleDateString()}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</Layout>

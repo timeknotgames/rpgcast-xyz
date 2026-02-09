@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ChampionDirectory from '../../islands/ChampionDirectory';
+---
+
+<Layout title="Champions | RPGCast.xyz">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Champions</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">
+        Champions are players who host game sessions and promote the Quillverse ecosystem.
+        Find a Champion to join their games or become one yourself.
+      </p>
+      <div class="mt-6">
+        <a href="/champions/register" class="btn btn-gold">
+          Become a Champion
+        </a>
+      </div>
+    </div>
+
+    <ChampionDirectory client:load />
+  </div>
+</Layout>

@@ -1,0 +1,201 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PLATFORM } from '../lib/config';
+import { TEK8_GUILDS } from '../lib/tek8-guilds';
+---
+
+<Layout>
+  <!-- Hero Section -->
+  <section class="relative py-20 overflow-hidden">
+    <!-- Background gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-amber-900/20"></div>
+
+    <div class="relative max-w-6xl mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">
+        <span class="gradient-text">RPGCast</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto">
+        The Curated Gateway to Quillverse Tokens
+      </p>
+      <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
+        Filter the noise. Find the signal. Play the game.
+        Discover tokens aligned with the Rainbow Roads MMORPG ecosystem.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <a href="/discover" class="btn btn-primary">
+          Discover Tokens
+        </a>
+        <a href="/launch" class="btn btn-gold">
+          Launch via pump.fun
+        </a>
+        <a href="/champions" class="btn btn-secondary">
+          View Champions
+        </a>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        <div class="card text-center">
+          <div class="text-2xl font-bold text-purple-400">8</div>
+          <div class="text-xs text-gray-400">TEK8 Guilds</div>
+        </div>
+        <div class="card text-center">
+          <div class="text-2xl font-bold text-amber-400">40</div>
+          <div class="text-xs text-gray-400">Rainbow Roads</div>
+        </div>
+        <div class="card text-center">
+          <div class="text-2xl font-bold text-green-400">3</div>
+          <div class="text-xs text-gray-400">Realms</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner Section -->
+  <section class="py-16 bg-[#0a0a14]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <p class="text-gray-500 text-sm uppercase tracking-widest mb-2">A Joint Project By</p>
+        <div class="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent max-w-xs mx-auto"></div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        {PLATFORM.partners.map(partner => (
+          <a
+            href={partner.url}
+            target="_blank"
+            class="partner-card group"
+            style={`--partner-color: ${partner.color}`}
+          >
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              class="w-20 h-20 object-contain mb-3 group-hover:scale-110 transition"
+            />
+            <span class="text-white font-medium">{partner.name}</span>
+            <span class="text-xs text-gray-500 mt-1">Visit Site</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-4">How It Works</h2>
+      <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+        RPGCast.xyz connects pump.fun tokens to the Quillverse MMORPG ecosystem.
+        Launch, discover, and play.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="card text-center">
+          <div class="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-purple-400 text-xl font-bold">1</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Launch on pump.fun</h3>
+          <p class="text-sm text-gray-400">
+            Create your token using pump.fun's battle-tested infrastructure.
+            We guide you through the process.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card text-center">
+          <div class="w-12 h-12 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-amber-400 text-xl font-bold">2</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Register with RPGCast</h3>
+          <p class="text-sm text-gray-400">
+            Add your token to RPGCast.xyz with game metadata: TEK8 guild,
+            Rainbow Road, and game role.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card text-center">
+          <div class="w-12 h-12 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-green-400 text-xl font-bold">3</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Play the Game</h3>
+          <p class="text-sm text-gray-400">
+            Your token joins the Quillverse ecosystem. Claim territories,
+            form alliances, and host game sessions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEK8 Guilds Preview -->
+  <section class="py-20 bg-[#0a0a14]">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-4">TEK8 Guilds</h2>
+      <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+        Choose your elemental alignment. Each guild represents a different path in the Quillverse.
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {TEK8_GUILDS.map(guild => (
+          <div class="card hover:border-opacity-50 transition cursor-pointer" style={`border-color: ${guild.color}40`}>
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                style={`background-color: ${guild.color}20; color: ${guild.color}`}
+              >
+                {guild.dice}
+              </span>
+              <span class="font-medium" style={`color: ${guild.color}`}>{guild.element}</span>
+            </div>
+            <p class="text-sm text-gray-400">{guild.name}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/discover" class="text-purple-400 hover:text-purple-300 transition">
+          Explore all guilds →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Champions CTA -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="card bg-gradient-to-r from-purple-900/30 to-amber-900/30 border-purple-500/30 text-center py-12">
+        <h2 class="text-3xl font-bold mb-4">Become a Champion</h2>
+        <p class="text-gray-300 mb-6 max-w-xl mx-auto">
+          Champions are players who host game sessions and promote the Quillverse ecosystem.
+          Build your reputation, grow your community, and earn rewards.
+        </p>
+        <a href="/champions/register" class="btn btn-gold">
+          Register as Champion
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Powered By -->
+  <section class="py-12 border-t border-gray-800">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500">
+        <span>Powered by</span>
+        <a href="https://pump.fun" target="_blank" class="hover:text-white transition">pump.fun</a>
+        <span>|</span>
+        <span>Part of the</span>
+        <a href="https://quillverse.org" target="_blank" class="hover:text-white transition">Quillverse</a>
+        <span>ecosystem</span>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .partner-card:hover {
+    border-color: var(--partner-color, #6b7280);
+  }
+</style>

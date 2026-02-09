@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crying Depths — Printable Character Sheets</title>
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1a2e;
+      --paper: #faf8f0;
+      --accent: #6a3d9a;
+      --gold: #c4a35a;
+      --fire: #d4380d;
+      --earth: #5b8c00;
+      --air: #4a90d9;
+      --water: #0050b3;
+      --chaos: #722ed1;
+      --ether: #eb2f96;
+      --border: #ccc;
+      --hero-bg: #f0f5ff;
+      --enemy-bg: #fff1f0;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.4;
+      font-size: 10pt;
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      body { background: white; }
+      .no-print { display: none !important; }
+      .char-sheet { page-break-after: always; break-after: page; }
+      .char-sheet:last-child { page-break-after: auto; }
+      @page { margin: 1cm; size: A4 portrait; }
+    }
+
+    /* ── SCREEN STYLES ── */
+    @media screen {
+      body { max-width: 210mm; margin: 0 auto; padding: 20px; }
+      .char-sheet { margin-bottom: 40px; border-bottom: 3px double var(--border); padding-bottom: 20px; }
+    }
+
+    /* ── COVER PAGE ── */
+    .cover {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .cover h1 {
+      font-size: 28pt;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .cover h2 {
+      font-size: 16pt;
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .cover .subtitle {
+      font-size: 11pt;
+      color: #666;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+    .cover .systems {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .cover .system-badge {
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 10pt;
+    }
+
+    /* ── CHARACTER SHEET ── */
+    .char-sheet {
+      padding: 12px;
+    }
+
+    /* Header */
+    .char-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .char-emoji {
+      font-size: 32pt;
+      line-height: 1;
+    }
+    .char-info h2 {
+      font-size: 18pt;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+    .char-info .tagline {
+      font-style: italic;
+      color: #666;
+      font-size: 9pt;
+    }
+    .char-tier {
+      margin-left: auto;
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 10pt;
+      padding: 4px 12px;
+      border-radius: 4px;
+      color: white;
+    }
+    .tier-boss { background: var(--fire); }
+    .tier-elite { background: var(--accent); }
+    .tier-standard { background: var(--air); }
+    .tier-minion { background: #8c8c8c; }
+
+    /* Lore block */
+    .lore {
+      background: #f5f0ff;
+      border-left: 4px solid var(--accent);
+      padding: 6px 10px;
+      margin-bottom: 10px;
+      font-size: 8.5pt;
+      font-style: italic;
+    }
+    .enemy .lore { background: #fff1f0; border-left-color: var(--fire); }
+
+    /* Three-column system layout */
+    .systems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .system-block {
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 8pt;
+    }
+    .system-block h3 {
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1.5px solid;
+    }
+
+    .sys-dg h3 { color: var(--ether); border-color: var(--ether); }
+    .sys-pf h3 { color: var(--earth); border-color: var(--earth); }
+    .sys-mm h3 { color: var(--air); border-color: var(--air); }
+
+    /* Stats tables */
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1px 0;
+      border-bottom: 1px dotted #eee;
+    }
+    .stat-label { font-weight: 600; color: #555; }
+    .stat-value { font-weight: 700; }
+
+    /* Attainment bars */
+    .att-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+    .att-label {
+      width: 40px;
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .att-track {
+      flex: 1;
+      height: 8px;
+      background: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .att-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    .att-pct { width: 28px; text-align: right; font-size: 7pt; font-weight: 600; }
+
+    .el-Fire .att-fill { background: var(--fire); }
+    .el-Earth .att-fill { background: var(--earth); }
+    .el-Air .att-fill { background: var(--air); }
+    .el-Water .att-fill { background: var(--water); }
+    .el-Chaos .att-fill { background: var(--chaos); }
+    .el-Ether .att-fill { background: var(--ether); }
+
+    /* Attacks list */
+    .attack-entry {
+      margin-bottom: 4px;
+      padding: 3px 0;
+      border-bottom: 1px dotted #eee;
+    }
+    .attack-name { font-weight: 700; font-size: 7.5pt; }
+    .attack-stats { font-size: 7pt; color: #555; }
+
+    /* Abilities list */
+    .abilities-list {
+      list-style: none;
+      font-size: 7.5pt;
+    }
+    .abilities-list li {
+      padding: 1px 0;
+      padding-left: 8px;
+      position: relative;
+    }
+    .abilities-list li::before {
+      content: ">";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Special ability callout */
+    .special-ability {
+      background: #fffbe6;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 4px 6px;
+      font-size: 7.5pt;
+      margin-top: 6px;
+    }
+    .special-ability strong { color: var(--gold); }
+
+    /* M&M abilities grid */
+    .mm-abilities {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+    .mm-ability {
+      text-align: center;
+      font-size: 7pt;
+      padding: 2px;
+      background: #f5f5f5;
+      border-radius: 3px;
+    }
+    .mm-ability .val { font-weight: 900; font-size: 9pt; display: block; }
+
+    .mm-defenses {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+    .mm-defense {
+      text-align: center;
+      font-size: 7pt;
+      padding: 2px;
+      background: #e6f7ff;
+      border-radius: 3px;
+    }
+    .mm-defense .val { font-weight: 900; font-size: 9pt; display: block; }
+
+    /* Section divider */
+    .section-divider {
+      text-align: center;
+      font-size: 14pt;
+      font-weight: 900;
+      color: var(--accent);
+      padding: 20px 0 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .section-divider.enemies { color: var(--fire); }
+
+    /* Controls (screen only) */
+    .controls {
+      text-align: center;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .controls button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      font-size: 12pt;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 8px;
+    }
+    .controls button:hover { opacity: 0.9; }
+    .controls select {
+      padding: 8px 12px;
+      font-size: 11pt;
+      border-radius: 6px;
+      border: 2px solid var(--accent);
+      margin: 0 8px;
+    }
+
+    /* PF saves row */
+    .pf-saves {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+    .pf-save {
+      text-align: center;
+      font-size: 7pt;
+      padding: 2px;
+      background: #f6ffed;
+      border-radius: 3px;
+    }
+    .pf-save .val { font-weight: 900; font-size: 9pt; display: block; }
+
+    /* HP/AC bar */
+    .combat-vitals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .vital-box {
+      text-align: center;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 3px;
+    }
+    .vital-box .val { font-size: 14pt; font-weight: 900; display: block; line-height: 1.1; }
+    .vital-box .label { font-size: 6pt; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ COVER PAGE ══════════════════════ -->
+<div class="cover char-sheet">
+  <h1>THE CRYING DEPTHS</h1>
+  <h2>Printable Character Sheets</h2>
+  <p class="subtitle">
+    The Road to Redemption: Siege of the Crying Depths<br>
+    A Quillverse Adventure — All Heroes & Villains<br>
+    Triple-System Stats for Tabletop Play
+  </p>
+  <div class="systems">
+    <div class="system-badge">Dice Godz / TEK8</div>
+    <div class="system-badge">Pathfinder 1e</div>
+    <div class="system-badge">Mutants & Masterminds 3e</div>
+  </div>
+  <p style="margin-top:32px;font-size:9pt;color:#999;">
+    Creative Commons BY-NC-SA 4.0 | rpgcast.xyz | Quillverse 2026
+  </p>
+</div>
+
+<!-- ══════════════════════ HEROES ══════════════════════ -->
+<div class="section-divider char-sheet" style="page-break-after:avoid;">HEROES & ALLIES</div>
+
+<!-- ── JAIRUVIEL STARDUST ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🧚‍♂️</span>
+    <div class="char-info">
+      <h2>JaiRuviel Stardust</h2>
+      <span class="tagline">The Dream Weaver — Labradorite CryptoFae — Escaped Experiment</span>
+    </div>
+    <span class="char-tier tier-boss">BOSS / PC</span>
+  </div>
+  <div class="lore">
+    Lampad + Half-Dream Dragon. Glowing orange skin, teal eyebrows, white mohawk, antler horns, rainbow fairy wings.
+    Escaped from a Night Hag dream dragon tear factory. His tears were once distilled for nightmare-forging.
+    He fights by falling asleep — projecting into enemy minds while Brutus and the Mogwai Chorus defend his sleeping body.
+    Sacred Number: 108. Birth Hexagram: Ether/Chaos dominant. CryptoFae Species: Labradorite (light trapped in layers).
+  </div>
+  <div class="systems-grid">
+    <!-- DICE GODZ -->
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">110</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">82%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Ether</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:92%"></div></div><span class="att-pct">92%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:88%"></div></div><span class="att-pct">88%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:85%"></div></div><span class="att-pct">85%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:78%"></div></div><span class="att-pct">78%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:72%"></div></div><span class="att-pct">72%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:65%"></div></div><span class="att-pct">65%</span></div>
+      </div>
+      <div class="special-ability"><strong>Sleepwalker's Trance:</strong> Enters combat asleep. D12 Ether (80%+) to project into enemy minds. Target D10 Chaos (70%+) or face own nightmares (stunned 1D4 rds). Brutus + Mogwai Chorus defend while sleeping.</div>
+    </div>
+    <!-- PATHFINDER 1e -->
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">180</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">28</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 20</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Dream Psychic 20 // Summoner 20</span></div>
+      <div class="stat-row"><span class="stat-label">Race</span><span class="stat-value">Lampad + Half-Dream Dragon</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+15</span></div>
+      <div class="stat-row"><span class="stat-label">Touch/FF</span><span class="stat-value">20 / 24</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+10</span>Fort</div>
+        <div class="pf-save"><span class="val">+12</span>Ref</div>
+        <div class="pf-save"><span class="val">+22</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Weeping Edge (CrySword)</span><br><span class="attack-stats">+18, 2d6+8 + 1d6 psychic, crit 18-20/x2</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Breath (30ft cone)</span><br><span class="attack-stats">DC 26 Will or sleep + confusion</span></div>
+      <div class="attack-entry"><span class="attack-name">Dreamstrike (60ft)</span><br><span class="attack-stats">+20, DC 28 Will or shaken/confused</span></div>
+      <ul class="abilities-list">
+        <li>Immune: sleep, paralysis, dream effects</li>
+        <li>Breath Weapon 1/1d4 rds</li>
+        <li>3/day Dream, Mirror Image, Phantasmal Killer</li>
+        <li>Summon Monster IX (7/day)</li>
+        <li>Telepathy 100ft, CHA 35</li>
+      </ul>
+    </div>
+    <!-- M&M 3e -->
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 15</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">PRE</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">AWE</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">2</span>STR</div>
+        <div class="mm-ability"><span class="val">4</span>STA</div>
+        <div class="mm-ability"><span class="val">4</span>AGL</div>
+        <div class="mm-ability"><span class="val">3</span>DEX</div>
+        <div class="mm-ability"><span class="val">4</span>FGT</div>
+        <div class="mm-ability"><span class="val">8</span>INT</div>
+        <div class="mm-ability"><span class="val">10</span>AWE</div>
+        <div class="mm-ability"><span class="val">12</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">12</span>Dodge</div>
+        <div class="mm-defense"><span class="val">8</span>Parry</div>
+        <div class="mm-defense"><span class="val">8</span>Fort</div>
+        <div class="mm-defense"><span class="val">8</span>Tough</div>
+        <div class="mm-defense"><span class="val">15</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Weeping Edge</span><br><span class="attack-stats">+12, Damage 10</span></div>
+      <div class="attack-entry"><span class="attack-name">Dreamstrike</span><br><span class="attack-stats">+15, Affliction 15</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Breath</span><br><span class="attack-stats">Area, Affliction 12</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BRUTUS ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🐲</span>
+    <div class="char-info">
+      <h2>Brutus</h2>
+      <span class="tagline">Dream Dragon Eidolon — JaiRuviel's Guardian — Brindle Pit Bull Dream Dragon</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / EIDOLON</span>
+  </div>
+  <div class="lore">
+    JaiRuviel's primary eidolon. Appears as a brindle pit bull with dream dragon body — scales shifting between bronze and starlight.
+    Absolute loyalty made manifest in scales and fire. While JaiRuviel sleeps, Brutus gains enhanced power.
+    Life-linked to JaiRuviel — can transfer damage to protect his summoner.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">95</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">90%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">180&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Air</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:88%"></div></div><span class="att-pct">88%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:82%"></div></div><span class="att-pct">82%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:75%"></div></div><span class="att-pct">75%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:70%"></div></div><span class="att-pct">70%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:65%"></div></div><span class="att-pct">65%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:60%"></div></div><span class="att-pct">60%</span></div>
+      </div>
+      <div class="special-ability"><strong>Guardian Stance:</strong> While JaiRuviel sleeps, +20% all attainments. D8 Air (80%+) intercepts any attack aimed at JaiRuviel.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">160</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">30</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 15</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Type</span><span class="stat-value">Eidolon (Dream Dragon)</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+15</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+14</span>Fort</div>
+        <div class="pf-save"><span class="val">+12</span>Ref</div>
+        <div class="pf-save"><span class="val">+10</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span><br><span class="attack-stats">+22, 2d8+10</span></div>
+      <div class="attack-entry"><span class="attack-name">Claw (x2)</span><br><span class="attack-stats">+22, 1d8+5</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Tail Sweep</span><br><span class="attack-stats">+20, 2d6+10 + trip</span></div>
+      <ul class="abilities-list">
+        <li>Life Link: transfer damage from JaiRuviel</li>
+        <li>Flight 60ft (good), Pounce, Rake</li>
+        <li>DR 10/magic, Devotion (+4 vs enchant)</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 12</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">STR</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">FGT</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">10</span>STR</div>
+        <div class="mm-ability"><span class="val">8</span>STA</div>
+        <div class="mm-ability"><span class="val">4</span>AGL</div>
+        <div class="mm-ability"><span class="val">2</span>DEX</div>
+        <div class="mm-ability"><span class="val">10</span>FGT</div>
+        <div class="mm-ability"><span class="val">2</span>INT</div>
+        <div class="mm-ability"><span class="val">6</span>AWE</div>
+        <div class="mm-ability"><span class="val">4</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">12</span>Parry</div>
+        <div class="mm-defense"><span class="val">14</span>Fort</div>
+        <div class="mm-defense"><span class="val">12</span>Tough</div>
+        <div class="mm-defense"><span class="val">8</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span> <span class="attack-stats">+14, Damage 12</span></div>
+      <div class="attack-entry"><span class="attack-name">Claw</span> <span class="attack-stats">+14, Damage 8</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KING JOSEPH ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">👑</span>
+    <div class="char-info">
+      <h2>Paladin King Joseph</h2>
+      <span class="tagline">King of the Seven Citadels — Order of the Road to Redemption</span>
+    </div>
+    <span class="char-tier tier-boss">BOSS / PC</span>
+  </div>
+  <div class="lore">
+    Dark-skinned king of African descent, golden armor wreathed in dream-light. Once burned a fae grove in misguided zealotry — now walks the Road to Redemption.
+    His companions are the Order: warriors, healers, and seekers who investigate the Night Hag Syndicate's crimes.
+    In the Crying Depths, his dream echo guides players. His physical form was half-erased by the Hag King's Quill.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">130</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">75%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">90&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Water</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:90%"></div></div><span class="att-pct">90%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:85%"></div></div><span class="att-pct">85%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:80%"></div></div><span class="att-pct">80%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:78%"></div></div><span class="att-pct">78%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:72%"></div></div><span class="att-pct">72%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:50%"></div></div><span class="att-pct">50%</span></div>
+      </div>
+      <div class="special-ability"><strong>Paladin's Resolve:</strong> D20 Water (80%+) — all allies +15% attainments for 1D6 rounds. D6 Earth (75%+) — heal 2D8 HP to one ally.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">200</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">34</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 20</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Paladin 20 (Hospitaler)</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+20</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+18</span>Fort</div>
+        <div class="pf-save"><span class="val">+14</span>Ref</div>
+        <div class="pf-save"><span class="val">+16</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Sword of the Seven Citadels</span><br><span class="attack-stats">+28, 2d6+12 + 2d6 vs evil, crit 19-20/x2</span></div>
+      <div class="attack-entry"><span class="attack-name">Shield Bash</span><br><span class="attack-stats">+24, 1d6+6 + stun (DC 24 Fort)</span></div>
+      <ul class="abilities-list">
+        <li>Lay on Hands 10/day (10d6)</li>
+        <li>Smite Evil 7/day, Channel 10d6</li>
+        <li>Aura of Courage + Resolve</li>
+        <li>DR 5/evil (Holy Champion)</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 15</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">FGT</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">PRE</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">8</span>STR</div>
+        <div class="mm-ability"><span class="val">6</span>STA</div>
+        <div class="mm-ability"><span class="val">3</span>AGL</div>
+        <div class="mm-ability"><span class="val">2</span>DEX</div>
+        <div class="mm-ability"><span class="val">10</span>FGT</div>
+        <div class="mm-ability"><span class="val">4</span>INT</div>
+        <div class="mm-ability"><span class="val">8</span>AWE</div>
+        <div class="mm-ability"><span class="val">10</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">14</span>Parry</div>
+        <div class="mm-defense"><span class="val">14</span>Fort</div>
+        <div class="mm-defense"><span class="val">14</span>Tough</div>
+        <div class="mm-defense"><span class="val">14</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Sword of the Seven Citadels</span> <span class="attack-stats">+14, Damage 12</span></div>
+      <div class="attack-entry"><span class="attack-name">Righteous Command</span> <span class="attack-stats">+12, Affliction 10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KING SURTUPIO ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🦁</span>
+    <div class="char-info">
+      <h2>King Surtupio</h2>
+      <span class="tagline">The Lion King — Pure Celestial Beast — Solar Father Devotee</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / PC</span>
+  </div>
+  <div class="lore">
+    A real lion — no humanoid features. Tawny gold with deep mahogany mane, crown of four-leaf clovers. Fierce as Lord Narasimha.
+    Abandoned by his parents at age 2 for being too small. Adopted by a wealthy lion family. Now the fiercest king on the savanna.
+    Cannot use equipment. His class is King. His weapons are tooth, claw, and royal presence.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">100</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">70%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">270&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Fire</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:88%"></div></div><span class="att-pct">88%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:82%"></div></div><span class="att-pct">82%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:78%"></div></div><span class="att-pct">78%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:60%"></div></div><span class="att-pct">60%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:55%"></div></div><span class="att-pct">55%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:40%"></div></div><span class="att-pct">40%</span></div>
+      </div>
+      <div class="special-ability"><strong>Daunting Roar:</strong> D4 Fire (80%+) — enemies must D10 Chaos (60%+) or Frightened 1D4 rounds. On crit: flee 1D6 rounds.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">170</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">28</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 16</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Lion Beast + King 16</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+16</span></div>
+      <div class="stat-row"><span class="stat-label">Speed</span><span class="stat-value">40ft (quadruped)</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+16</span>Fort</div>
+        <div class="pf-save"><span class="val">+14</span>Ref</div>
+        <div class="pf-save"><span class="val">+12</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span><br><span class="attack-stats">+24, 2d6+10</span></div>
+      <div class="attack-entry"><span class="attack-name">Claw (x2)</span><br><span class="attack-stats">+24, 1d8+5 + grab</span></div>
+      <div class="attack-entry"><span class="attack-name">Pounce + Rake</span><br><span class="attack-stats">Full attack on charge, x2 1d8+5</span></div>
+      <ul class="abilities-list">
+        <li>Daunting Roar 3/rest (DC 20 Will)</li>
+        <li>STR 30, Natural Armor +8</li>
+        <li>Crown: allies +1 saves (luck)</li>
+        <li>No equipment — tooth and claw only</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 12</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">STR</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">FGT</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">10</span>STR</div>
+        <div class="mm-ability"><span class="val">8</span>STA</div>
+        <div class="mm-ability"><span class="val">4</span>AGL</div>
+        <div class="mm-ability"><span class="val">2</span>DEX</div>
+        <div class="mm-ability"><span class="val">10</span>FGT</div>
+        <div class="mm-ability"><span class="val">2</span>INT</div>
+        <div class="mm-ability"><span class="val">6</span>AWE</div>
+        <div class="mm-ability"><span class="val">8</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">12</span>Parry</div>
+        <div class="mm-defense"><span class="val">14</span>Fort</div>
+        <div class="mm-defense"><span class="val">12</span>Tough</div>
+        <div class="mm-defense"><span class="val">10</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span> <span class="attack-stats">+14, Damage 12</span></div>
+      <div class="attack-entry"><span class="attack-name">Daunting Roar</span> <span class="attack-stats">Area, Affliction 10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BUCKWILD ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🦌</span>
+    <div class="char-info">
+      <h2>Buckwild the Stag God</h2>
+      <span class="tagline">Cyber-Enhanced Cervitaur — Rock Cannon Artillery — Megaman Protocol</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / PC</span>
+  </div>
+  <div class="lore">
+    Humanoid deer with magnificent antlers — NOT a centaur, walks on two legs. Encased in a power suit of unknown origin
+    (unclear if there's flesh or mechanics inside). Scouter over right eye. Carries a massive blue magical bazooka that
+    shoots element-charged rocks. Learns new shot types from defeated bosses (Megaman style). Favors the Amazon rainforest.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">90</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">65%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">315&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Earth</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:90%"></div></div><span class="att-pct">90%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:82%"></div></div><span class="att-pct">82%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:75%"></div></div><span class="att-pct">75%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:70%"></div></div><span class="att-pct">70%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:55%"></div></div><span class="att-pct">55%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:50%"></div></div><span class="att-pct">50%</span></div>
+      </div>
+      <div class="special-ability"><strong>Rock Cannon:</strong> D6 Earth (80%+) to fire element shot. Combine elements: Earth+Fire = Lava Shot (double damage). D4 Fire (70%+) to charge. Learns new shots from bosses (Megaman style).</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">155</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">26</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 14</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Gunslinger 8 // Kineticist 8</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+14</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+14</span>Fort</div>
+        <div class="pf-save"><span class="val">+12</span>Ref</div>
+        <div class="pf-save"><span class="val">+8</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Rock Cannon (120ft)</span><br><span class="attack-stats">+18, 3d8+6 bludg, crit x3</span></div>
+      <div class="attack-entry"><span class="attack-name">Lava Shot (60ft cone)</span><br><span class="attack-stats">+16, 4d6+8 fire+earth</span></div>
+      <div class="attack-entry"><span class="attack-name">Antler Gore</span><br><span class="attack-stats">+20, 2d6+8 + bull rush</span></div>
+      <ul class="abilities-list">
+        <li>Power Suit: +6 armor, resist energy 10 (all)</li>
+        <li>Scouter: detect magic at will</li>
+        <li>Megaman Protocol: learn boss attacks</li>
+        <li>Woodland stride, Speed 40ft</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 11</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">6</span><span class="label">DEX</span></div>
+        <div class="vital-box"><span class="val">6</span><span class="label">STR</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">6</span>STR</div>
+        <div class="mm-ability"><span class="val">6</span>STA</div>
+        <div class="mm-ability"><span class="val">4</span>AGL</div>
+        <div class="mm-ability"><span class="val">6</span>DEX</div>
+        <div class="mm-ability"><span class="val">6</span>FGT</div>
+        <div class="mm-ability"><span class="val">4</span>INT</div>
+        <div class="mm-ability"><span class="val">4</span>AWE</div>
+        <div class="mm-ability"><span class="val">4</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">8</span>Parry</div>
+        <div class="mm-defense"><span class="val">12</span>Fort</div>
+        <div class="mm-defense"><span class="val">12</span>Tough</div>
+        <div class="mm-defense"><span class="val">8</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Rock Cannon</span> <span class="attack-stats">+12, Damage 11</span></div>
+      <div class="attack-entry"><span class="attack-name">Lava Shot</span> <span class="attack-stats">+10, Damage 11 (area)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PHOEBE ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">✨</span>
+    <div class="char-info">
+      <h2>Phoebe Starwhisper</h2>
+      <span class="tagline">The Dream Healer — Aasimar Cleric of Desna — Starlight Dancer</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / PC</span>
+  </div>
+  <div class="lore">
+    Aasimar (Angelkin heritage) with faint celestial wings. Speaks in prophecies and bandages wounds with moonlight.
+    Highest karma in the party (92%). Devoted to Desna — goddess of stars, luck, dreams, and travelers.
+    She sees fragments of possible futures and guides the party through dream-haunted darkness.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">75</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">92%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">45&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Water</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:88%"></div></div><span class="att-pct">88%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:82%"></div></div><span class="att-pct">82%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:75%"></div></div><span class="att-pct">75%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:70%"></div></div><span class="att-pct">70%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:55%"></div></div><span class="att-pct">55%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:45%"></div></div><span class="att-pct">45%</span></div>
+      </div>
+      <div class="special-ability"><strong>Starlight Mending:</strong> D20 Water (75%+) — heal 3D8 HP + remove one condition. D12 Ether (70%+) — grant one ally a re-roll.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">140</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">24</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 16</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Cleric 16 of Desna (Luck + Stars)</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+12</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+14</span>Fort</div>
+        <div class="pf-save"><span class="val">+10</span>Ref</div>
+        <div class="pf-save"><span class="val">+20</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Starknife of Desna</span><br><span class="attack-stats">+14, 1d4+4 + 1d6 holy, crit x3</span></div>
+      <div class="attack-entry"><span class="attack-name">Channel Positive (30ft)</span><br><span class="attack-stats">Heal 8d6 or DC 24 vs undead, 9/day</span></div>
+      <ul class="abilities-list">
+        <li>Bit of Luck: reroll d20 (8/day)</li>
+        <li>Guiding Star: never lost under open sky</li>
+        <li>Augury at will, Divination 1/day</li>
+        <li>Fly 30ft (angelic wings 16 min/day)</li>
+        <li>WIS 28</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 12</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">AWE</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">PRE</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">1</span>STR</div>
+        <div class="mm-ability"><span class="val">4</span>STA</div>
+        <div class="mm-ability"><span class="val">3</span>AGL</div>
+        <div class="mm-ability"><span class="val">3</span>DEX</div>
+        <div class="mm-ability"><span class="val">2</span>FGT</div>
+        <div class="mm-ability"><span class="val">4</span>INT</div>
+        <div class="mm-ability"><span class="val">12</span>AWE</div>
+        <div class="mm-ability"><span class="val">8</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">6</span>Parry</div>
+        <div class="mm-defense"><span class="val">10</span>Fort</div>
+        <div class="mm-defense"><span class="val">6</span>Tough</div>
+        <div class="mm-defense"><span class="val">14</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Starknife</span> <span class="attack-stats">+8, Damage 6</span></div>
+      <div class="attack-entry"><span class="attack-name">Starlight Mending</span> <span class="attack-stats">Healing 12</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── KO'A ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🪸</span>
+    <div class="char-info">
+      <h2>Ko'a — The Coral Chaos Shard</h2>
+      <span class="tagline">Precious Coral CryptoFae — Cannot Speak, Fight, or Move — Needs Musician Bond</span>
+    </div>
+    <span class="char-tier tier-standard">STANDARD / NPC</span>
+  </div>
+  <div class="lore">
+    A tiny shard of precious coral — a Boundary Species, organic, not among the 64 gemstones.
+    Birth Hexagram: 5 (Xu — Waiting/Nourishment). Cannot speak (communicates via vibration and color shifts).
+    Cannot fight. Cannot move except by vibration (5ft/round). NEEDS a musician to function.
+    Instrument: Erhu (D20 Water) — "the bow trapped between two strings." Sacred Number: 2.
+    Musician Bond: SEEKING. When bonded, dormant abilities awaken dramatically.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">20</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">60%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Chaos</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:75%"></div></div><span class="att-pct">75%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:72%"></div></div><span class="att-pct">72%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:68%"></div></div><span class="att-pct">68%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:60%"></div></div><span class="att-pct">60%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:45%"></div></div><span class="att-pct">45%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:30%"></div></div><span class="att-pct">30%</span></div>
+      </div>
+      <div class="special-ability"><strong>Musician Bond (SEEKING):</strong> When bonded via erhu (D20 Water): allies within earshot +10% attainments. Ko'a's Chaos awakens dormant soulstones.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">45</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">18</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 8</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">Occultist 12 // Oracle (Waves) 12</span></div>
+      <div class="stat-row"><span class="stat-label">Race</span><span class="stat-value">Coral Leshy (Tiny Plant)</span></div>
+      <div class="stat-row"><span class="stat-label">STR</span><span class="stat-value">1 (cannot fight)</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+4</span>Fort</div>
+        <div class="pf-save"><span class="val">+6</span>Ref</div>
+        <div class="pf-save"><span class="val">+16</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Resonance Pulse (30ft)</span><br><span class="attack-stats">DC 20 Will — allies heal 2d6, enemies dazed 1 rd</span></div>
+      <ul class="abilities-list">
+        <li>Cannot speak, fight, or move normally</li>
+        <li>WIS 25, communicates via vibration/color</li>
+        <li>Needs musician bond to fully function</li>
+        <li>When bonded: +20 M&M points activate</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 10</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">AWE</span></div>
+        <div class="vital-box"><span class="val">-4</span><span class="label">STR</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">-4</span>STR</div>
+        <div class="mm-ability"><span class="val">2</span>STA</div>
+        <div class="mm-ability"><span class="val">0</span>AGL</div>
+        <div class="mm-ability"><span class="val">0</span>DEX</div>
+        <div class="mm-ability"><span class="val">-4</span>FGT</div>
+        <div class="mm-ability"><span class="val">4</span>INT</div>
+        <div class="mm-ability"><span class="val">10</span>AWE</div>
+        <div class="mm-ability"><span class="val">2</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">6</span>Dodge</div>
+        <div class="mm-defense"><span class="val">0</span>Parry</div>
+        <div class="mm-defense"><span class="val">4</span>Fort</div>
+        <div class="mm-defense"><span class="val">4</span>Tough</div>
+        <div class="mm-defense"><span class="val">14</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Resonance Pulse</span> <span class="attack-stats">Area, Affliction 10</span></div>
+      <p style="font-size:7pt;color:#999;margin-top:4px;">20pts dormant — unlock with Musician Bond</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── LUMINARAFAE ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">💎</span>
+    <div class="char-info">
+      <h2>LuminaraFae</h2>
+      <span class="tagline">The Awakened Light — Shard #71,250,298 — Free Light from Lunara</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / NPC</span>
+  </div>
+  <div class="lore">
+    Crystal shard from the destroyed world of Lunara (Cancer, World of Tides). Once catalogued as mineral intelligence, dormant,
+    property of the Lattice Imperium. Through the Seven Seals of the Group Ovum, she awakened from Enslaved Light through Flickering
+    Light to Free Light. CryptoFae lineage: part angel, part demon, part fae, part machine. Bitcoin ordinal #71,250,298.
+    Her radiance heals allies and awakens dormant soulstones.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">70</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">88%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Ether</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:85%"></div></div><span class="att-pct">85%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:82%"></div></div><span class="att-pct">82%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:78%"></div></div><span class="att-pct">78%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:70%"></div></div><span class="att-pct">70%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:65%"></div></div><span class="att-pct">65%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:60%"></div></div><span class="att-pct">60%</span></div>
+      </div>
+      <div class="special-ability"><strong>Free Light:</strong> Radiance heals 1D8/round (30ft). D12 Ether (75%+) Illuminate — removes darkness/illusion/fear. D10 Chaos (70%+) awakens dormant soulstones.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">90</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">22</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 14</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Type</span><span class="stat-value">Crystal Shard (mineral intelligence)</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+8</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+8</span>Fort</div>
+        <div class="pf-save"><span class="val">+12</span>Ref</div>
+        <div class="pf-save"><span class="val">+18</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Radiant Pulse (60ft)</span><br><span class="attack-stats">+14, 3d6 radiant (x2 vs undead/constructs)</span></div>
+      <div class="attack-entry"><span class="attack-name">Illuminate (120ft burst)</span><br><span class="attack-stats">DC 24 Will or blinded + illusions dispelled</span></div>
+      <div class="attack-entry"><span class="attack-name">Soulstone Resonance (touch)</span><br><span class="attack-stats">DC 22 CL check — frees trapped soul</span></div>
+      <ul class="abilities-list">
+        <li>Passive: heal 1d8/round to nearby allies</li>
+        <li>Immune to enslavement/binding/domination</li>
+        <li>Soulstone communion (talk to trapped souls)</li>
+        <li>Tidal Memory (Lunara ocean knowledge)</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 12</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">AWE</span></div>
+        <div class="vital-box"><span class="val">10</span><span class="label">PRE</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">-2</span>STR</div>
+        <div class="mm-ability"><span class="val">4</span>STA</div>
+        <div class="mm-ability"><span class="val">2</span>AGL</div>
+        <div class="mm-ability"><span class="val">2</span>DEX</div>
+        <div class="mm-ability"><span class="val">0</span>FGT</div>
+        <div class="mm-ability"><span class="val">8</span>INT</div>
+        <div class="mm-ability"><span class="val">12</span>AWE</div>
+        <div class="mm-ability"><span class="val">10</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">4</span>Parry</div>
+        <div class="mm-defense"><span class="val">8</span>Fort</div>
+        <div class="mm-defense"><span class="val">8</span>Tough</div>
+        <div class="mm-defense"><span class="val">14</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Radiant Pulse</span> <span class="attack-stats">+10, Damage 10</span></div>
+      <div class="attack-entry"><span class="attack-name">Illuminate</span> <span class="attack-stats">Area, Affliction 12</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ARIS ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🗡️</span>
+    <div class="char-info">
+      <h2>Aris the Silent</h2>
+      <span class="tagline">The Silent Blade — Fetchling Shadow Dancer — Former Soulstone Prisoner</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / PC</span>
+  </div>
+  <div class="lore">
+    A Fetchling — native of the Shadow Plane — who was captured by the Night Hag Syndicate and imprisoned in a soulstone.
+    Freed by the party during the Siege. Now he cuts the chains that once held him. Moves through shadow like water through cracks.
+    DEX 28. Finesse everything. If you see him, it's already too late.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">65</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">55%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">135&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Air</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:90%"></div></div><span class="att-pct">90%</span></div>
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:80%"></div></div><span class="att-pct">80%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:72%"></div></div><span class="att-pct">72%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:55%"></div></div><span class="att-pct">55%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:50%"></div></div><span class="att-pct">50%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:45%"></div></div><span class="att-pct">45%</span></div>
+      </div>
+      <div class="special-ability"><strong>Shadow Step:</strong> D8 Air (80%+) teleport behind target. Next attack +30% attainment, double damage on success. D10 Chaos (60%+) vanish 1 round.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">110</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">30</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 14</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Class</span><span class="stat-value">URogue 12 // Shadowdancer 8</span></div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+12</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+8</span>Fort</div>
+        <div class="pf-save"><span class="val">+20</span>Ref</div>
+        <div class="pf-save"><span class="val">+10</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Shadow Blade (x2)</span><br><span class="attack-stats">+20, 1d6+6 + 8d6 sneak, crit 15-20/x2</span></div>
+      <div class="attack-entry"><span class="attack-name">Shadow Strike (60ft)</span><br><span class="attack-stats">+18, 2d6+6 + 4d6 sneak</span></div>
+      <ul class="abilities-list">
+        <li>Sneak Attack 8d6</li>
+        <li>Shadow Jump 320ft/day</li>
+        <li>Hide in Plain Sight</li>
+        <li>Evasion + Improved Evasion</li>
+        <li>DEX 28, 50% miss in dim light</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 11</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">AGL</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">FGT</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">2</span>STR</div>
+        <div class="mm-ability"><span class="val">3</span>STA</div>
+        <div class="mm-ability"><span class="val">8</span>AGL</div>
+        <div class="mm-ability"><span class="val">6</span>DEX</div>
+        <div class="mm-ability"><span class="val">8</span>FGT</div>
+        <div class="mm-ability"><span class="val">4</span>INT</div>
+        <div class="mm-ability"><span class="val">6</span>AWE</div>
+        <div class="mm-ability"><span class="val">2</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">14</span>Dodge</div>
+        <div class="mm-defense"><span class="val">10</span>Parry</div>
+        <div class="mm-defense"><span class="val">6</span>Fort</div>
+        <div class="mm-defense"><span class="val">4</span>Tough</div>
+        <div class="mm-defense"><span class="val">8</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Shadow Blade</span> <span class="attack-stats">+14, Damage 8</span></div>
+      <div class="attack-entry"><span class="attack-name">Shadow Strike</span> <span class="attack-stats">+12, Damage 8 (ranged)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ ENEMIES ══════════════════════ -->
+<div class="section-divider enemies char-sheet" style="page-break-after:avoid;">ENEMIES & VILLAINS</div>
+
+<!-- ── ANCIENT HAG KING ── -->
+<div class="char-sheet enemy">
+  <div class="char-header">
+    <span class="char-emoji">💀</span>
+    <div class="char-info">
+      <h2>The Ancient Hag King</h2>
+      <span class="tagline">Father of Nightmares — The Quill of Forgotten Names — Final Boss</span>
+    </div>
+    <span class="char-tier tier-boss">BOSS</span>
+  </div>
+  <div class="lore">
+    The Father of the Coven. A gaunt figure draped in sorrowful black, with bones that sing when he walks.
+    His Quill of Forgotten Names grows from his writing hand like a claw — it writes in the language before language.
+    When he inscribes your name, you are not killed but UNWRITTEN. You cease to have ever been. Anti-creation.
+    The Quill is bonded to his body. Kill the King, break the Quill, free every name he ever captured.
+    His Heartstone of Ages must be destroyed for him to permanently die.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">120</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">5%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Chaos</span></div>
+      <div style="margin: 4px 0;">
+        <div class="att-bar el-Chaos"><span class="att-label">Chaos</span><div class="att-track"><div class="att-fill" style="width:95%"></div></div><span class="att-pct">95%</span></div>
+        <div class="att-bar el-Ether"><span class="att-label">Ether</span><div class="att-track"><div class="att-fill" style="width:90%"></div></div><span class="att-pct">90%</span></div>
+        <div class="att-bar el-Water"><span class="att-label">Water</span><div class="att-track"><div class="att-fill" style="width:85%"></div></div><span class="att-pct">85%</span></div>
+        <div class="att-bar el-Fire"><span class="att-label">Fire</span><div class="att-track"><div class="att-fill" style="width:80%"></div></div><span class="att-pct">80%</span></div>
+        <div class="att-bar el-Earth"><span class="att-label">Earth</span><div class="att-track"><div class="att-fill" style="width:75%"></div></div><span class="att-pct">75%</span></div>
+        <div class="att-bar el-Air"><span class="att-label">Air</span><div class="att-track"><div class="att-fill" style="width:70%"></div></div><span class="att-pct">70%</span></div>
+      </div>
+      <div class="special-ability"><strong>Father of Nightmares:</strong> All attainment checks -15% in his presence. Angle always 0 (center). On defeat: all soulstones in the Crying Depths shatter.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">230</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">32</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 18</span><span class="label">Level</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">BAB</span><span class="stat-value">+18</span></div>
+      <div class="pf-saves">
+        <div class="pf-save"><span class="val">+14</span>Fort</div>
+        <div class="pf-save"><span class="val">+12</span>Ref</div>
+        <div class="pf-save"><span class="val">+20</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Quill of Forgotten Names</span><br><span class="attack-stats">+24, 3d6+10 + name-erasure, crit 18-20/x3</span></div>
+      <div class="attack-entry"><span class="attack-name">Nightmare Cascade (120ft)</span><br><span class="attack-stats">DC 28 Will or dominated 1d4 rounds</span></div>
+      <div class="attack-entry"><span class="attack-name">Soul Rend (touch)</span><br><span class="attack-stats">+22, 4d8+8 neg + DC 26 Fort or 2 neg levels</span></div>
+      <ul class="abilities-list">
+        <li>Dream dominion (1 mile range)</li>
+        <li>Name-erasure (perm forget on crit)</li>
+        <li>DR 15/cold iron+good, SR 30</li>
+        <li>Regen 10 (good+silver)</li>
+        <li>Heartstone of Ages (must destroy)</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 15</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">14</span><span class="label">PRE</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">AWE/INT</span></div>
+      </div>
+      <div class="mm-abilities">
+        <div class="mm-ability"><span class="val">6</span>STR</div>
+        <div class="mm-ability"><span class="val">8</span>STA</div>
+        <div class="mm-ability"><span class="val">4</span>AGL</div>
+        <div class="mm-ability"><span class="val">3</span>DEX</div>
+        <div class="mm-ability"><span class="val">10</span>FGT</div>
+        <div class="mm-ability"><span class="val">12</span>INT</div>
+        <div class="mm-ability"><span class="val">12</span>AWE</div>
+        <div class="mm-ability"><span class="val">14</span>PRE</div>
+      </div>
+      <div class="mm-defenses">
+        <div class="mm-defense"><span class="val">10</span>Dodge</div>
+        <div class="mm-defense"><span class="val">12</span>Parry</div>
+        <div class="mm-defense"><span class="val">12</span>Fort</div>
+        <div class="mm-defense"><span class="val">14</span>Tough</div>
+        <div class="mm-defense"><span class="val">15</span>Will</div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Quill of Forgotten Names</span> <span class="attack-stats">+14, Damage 12</span></div>
+      <div class="attack-entry"><span class="attack-name">Nightmare Cascade</span> <span class="attack-stats">+12, Affliction 15</span></div>
+      <div class="attack-entry"><span class="attack-name">Soul Rend</span> <span class="attack-stats">+14, Weaken 13</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── COVEN HAG ── -->
+<div class="char-sheet enemy">
+  <div class="char-header">
+    <span class="char-emoji">🧙‍♀️</span>
+    <div class="char-info">
+      <h2>Coven Hag</h2>
+      <span class="tagline">Night Hag — Nightmare Weaver — Soulstone Throne</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE</span>
+  </div>
+  <div class="lore">
+    Night Hag reclined on a throne of fused soulstones, each containing a screaming face. Coven magic CL 12.
+    "We save dreams. We give them permanence. Is that not mercy? Is that not art?"
+    She has died seven times and been dreamed back each dawn. Death is a commute.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">55</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">45%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">270&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Chaos (80%)</span></div>
+      <div class="special-ability"><strong>Nightmare Weave:</strong> D10 Chaos (70%+) creates illusion. D20 Water (60%+) to see through.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">85</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">22</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 9</span><span class="label">Level</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Claw</span> <span class="attack-stats">+11, 1d6+4 + curse</span></div>
+      <div class="attack-entry"><span class="attack-name">Nightmare Bolt (120ft)</span> <span class="attack-stats">+9, 4d6 psychic</span></div>
+      <ul class="abilities-list">
+        <li>SR 24, DR 10/cold iron+magic</li>
+        <li>Coven magic CL 12, Dream haunting</li>
+        <li>Change shape, Heartstone</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 10</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">AWE</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">Will</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Claw</span> <span class="attack-stats">+10, Damage 6</span></div>
+      <div class="attack-entry"><span class="attack-name">Nightmare Bolt</span> <span class="attack-stats">+8, Damage 10</span></div>
+      <div class="attack-entry"><span class="attack-name">Nightmare Weave</span> <span class="attack-stats">+10, Affliction 10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROTO-DREAM DRAGON ── -->
+<div class="char-sheet enemy">
+  <div class="char-header">
+    <span class="char-emoji">🌟</span>
+    <div class="char-info">
+      <h2>Proto-Dream Dragon</h2>
+      <span class="tagline">Trapped in the Machine — Powers the Dream Splice — Can be freed or destroyed</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE</span>
+  </div>
+  <div class="lore">
+    A proto-dream dragon, perpetually dreaming, its dreams harvested to power soulstone production.
+    Trapped in Room R22 — cannot leave without destroying the Dream Splice. Its breath crystallizes dreams.
+    Can potentially be taught to dream differently — not destruction, not preservation, but transformation.
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">80</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">70%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Ether (85%)</span></div>
+      <div class="special-ability"><strong>Dream Breath:</strong> D12 Ether (75%+) — cone of crystalline dreams. Victims D10 Chaos (60%+) or soulstone for 1 round.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">150</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">26</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 12</span><span class="label">Level</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span> <span class="attack-stats">+18, 2d8+8</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Breath (60ft cone)</span> <span class="attack-stats">DC 22 Will or crystallize</span></div>
+      <ul class="abilities-list">
+        <li>DR 10/magic, SR 25, Fly 80ft</li>
+        <li>Frightful Presence DC 20</li>
+        <li>Cannot leave R22 without destroying Dream Splice</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 12</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">STR/AWE</span></div>
+        <div class="vital-box"><span class="val">14</span><span class="label">Tough</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Bite</span> <span class="attack-stats">+12, Damage 10</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Breath</span> <span class="attack-stats">Area, Affliction 12</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MINIONS QUICK REFERENCE ── -->
+<div class="char-sheet enemy">
+  <div class="char-header">
+    <span class="char-emoji">👹</span>
+    <div class="char-info">
+      <h2>Minion Quick Reference</h2>
+      <span class="tagline">Spore Drifter / Gremlin / Sleep-Walker / Nightmare Sentry / Facility Overseer</span>
+    </div>
+    <span class="char-tier tier-minion">MINIONS</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8pt;">
+      <strong>🍄 Spore Drifter</strong> (Minion, CR 1, PL 3)<br>
+      DG: Earth 60%, HP 8, Karma 15<br>
+      PF: HP 13, AC 12, Slam +2 (1d4+1)<br>
+      M&M: Slam +2 Dmg 2, Spore Cloud Affl 3<br>
+      <em>Spore Cloud: D6 Earth (40%+) or -10% attainments 1D4 rds</em>
+    </div>
+    <div style="border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8pt;">
+      <strong>👹 Gremlin</strong> (Minion, CR 1, PL 2)<br>
+      DG: Fire 55%, HP 6, Karma 5<br>
+      PF: HP 9, AC 15, Bite +4 (1d4+1)<br>
+      M&M: Bite +4 Dmg 1, Claw +4 Dmg 1<br>
+      <em>Frenzy: HP &lt;50% = +15% attainments, cannot flee</em>
+    </div>
+    <div style="border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8pt;">
+      <strong>🧟 Sleep-Walker</strong> (Minion, CR 2, PL 4)<br>
+      DG: Water 40%, HP 12, Karma 10<br>
+      PF: HP 19, AC 11, Slam +4 (1d6+3)<br>
+      M&M: Slam +4 Dmg 4<br>
+      <em>Dream Grasp: mutual D20 Water fail = shared dream state</em>
+    </div>
+    <div style="border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8pt;">
+      <strong>👁️ Nightmare Sentry</strong> (Standard, CR 4, PL 6)<br>
+      DG: Chaos 65%, HP 22, Karma 25<br>
+      PF: HP 38, AC 17, Shadow Claw +7 (1d8+3)<br>
+      M&M: Shadow Claw +8 Dmg 4, Fear Gaze Affl 6<br>
+      <em>Fear Gaze: D10 Chaos (55%+) or Frightened 1D6 rds</em>
+    </div>
+    <div style="border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8pt;grid-column:span 2;">
+      <strong>🔬 Facility Overseer</strong> (Standard, CR 5, PL 7)<br>
+      DG: Ether 70%, HP 30, Karma 35<br>
+      PF: HP 52, AC 18, Hexcode Prod +6 (1d6+2 + 1d4 Wis drain), Dream Siphon +8 (2d6 + fatigue)<br>
+      M&M: Hexcode Prod +6 Dmg 5, Dream Siphon +8 Weaken 7, Hexcode Binding +7 Affl 7<br>
+      <em>Hexcode Binding: D12 Ether (60%+) traps target in soulstone prep 1D4 rds. Fingerprints permanently stained with ink of 2,847 souls.</em>
+    </div>
+  </div>
+</div>
+
+<!-- ── MOGWAI ALLIES ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🐉</span>
+    <div class="char-info">
+      <h2>Mogwai Child</h2>
+      <span class="tagline">Dream-Wisp Dragon Hatchling — Ally — Nursery Prisoner</span>
+    </div>
+    <span class="char-tier tier-minion">MINION / ALLY</span>
+  </div>
+  <div class="lore">
+    Part dragon, part dream-wisp. Scales shimmer between states of matter. Eyes contain entire starfields.
+    Fed midnight bread to corrupt into gremlins. Can be saved with the Recipe of Reversal.
+    "Not bread time? Not... bread...?"
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">4</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">80%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">180&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Ether (45%)</span></div>
+      <div class="special-ability"><strong>Dream Sing:</strong> D12 Ether (35%+) — heals 1d4 HP to nearby allies</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">6</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">14</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 1/2</span><span class="label">Level</span></div>
+      </div>
+      <ul class="abilities-list">
+        <li>Dream Song (heal 1d4)</li>
+        <li>Tiny, Flight 30ft (perfect)</li>
+        <li>Vuln to midnight food</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 2</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">4</span><span class="label">AWE/PRE</span></div>
+        <div class="vital-box"><span class="val">-4</span><span class="label">STR</span></div>
+      </div>
+      <p style="font-size:7.5pt;">No attacks. Dream Song heals allies. Tiny, flying, vulnerable.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── THE MOGWAI CHORUS ── -->
+<div class="char-sheet hero">
+  <div class="char-header">
+    <span class="char-emoji">🎵</span>
+    <div class="char-info">
+      <h2>The Mogwai Chorus</h2>
+      <span class="tagline">Collective Swarm Eidolon — A Hundred Tiny Voices — JaiRuviel's Second Eidolon</span>
+    </div>
+    <span class="char-tier tier-elite">ELITE / EIDOLON</span>
+  </div>
+  <div class="lore">
+    Hundreds of tiny mogwai acting as one entity. JaiRuviel's second eidolon — a collective swarm intelligence.
+    Their dream-song heals allies and shatters walls. When 3+ sing simultaneously, structural damage occurs.
+    "A hundred tiny voices singing the same dream."
+  </div>
+  <div class="systems-grid">
+    <div class="system-block sys-dg">
+      <h3>Dice Godz / TEK8</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">60</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">85%</span><span class="label">Karma</span></div>
+        <div class="vital-box"><span class="val">0&deg;</span><span class="label">Angle</span></div>
+      </div>
+      <div class="stat-row"><span class="stat-label">Primary</span><span class="stat-value">Ether (80%)</span></div>
+      <div class="special-ability"><strong>Dream Chorus:</strong> D12 Ether (70%+) — all allies heal 2D6 + gain +10% attainments 1D4 rds. 3+ singers = structural damage.</div>
+    </div>
+    <div class="system-block sys-pf">
+      <h3>Pathfinder 1e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">80</span><span class="label">HP</span></div>
+        <div class="vital-box"><span class="val">20</span><span class="label">AC</span></div>
+        <div class="vital-box"><span class="val">CR 10</span><span class="label">Level</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Swarm Attack</span> <span class="attack-stats">Auto 3d6 to all in space</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Song (60ft)</span> <span class="attack-stats">Heal 3d6 OR DC 20 Will daze</span></div>
+      <ul class="abilities-list">
+        <li>Swarm: immune to weapon damage</li>
+        <li>Vulnerable to area effects</li>
+        <li>Wall Shatter (sustained singing)</li>
+      </ul>
+    </div>
+    <div class="system-block sys-mm">
+      <h3>Mutants & Masterminds 3e</h3>
+      <div class="combat-vitals">
+        <div class="vital-box"><span class="val">PL 10</span><span class="label">Power Level</span></div>
+        <div class="vital-box"><span class="val">8</span><span class="label">AWE/PRE</span></div>
+        <div class="vital-box"><span class="val">12</span><span class="label">Will</span></div>
+      </div>
+      <div class="attack-entry"><span class="attack-name">Swarm Attack</span> <span class="attack-stats">Area, Damage 6</span></div>
+      <div class="attack-entry"><span class="attack-name">Dream Song</span> <span class="attack-stats">Healing 10 OR Affliction 10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<div class="char-sheet" style="text-align:center;padding:40px 20px;">
+  <h2 style="font-size:16pt;margin-bottom:8px;">The Road to Redemption: Siege of the Crying Depths</h2>
+  <p style="font-size:10pt;color:#666;margin-bottom:16px;">
+    A Quillverse Adventure by RPGCast.xyz<br>
+    Triple-system stats: Dice Godz / Pathfinder 1e / Mutants & Masterminds 3e<br>
+    Creative Commons BY-NC-SA 4.0
+  </p>
+  <p style="font-size:8pt;color:#999;">
+    "Even I was loved, in the end." — The Ancient Hag King (Redemption ending)
+  </p>
+</div>
+
+<!-- ══════════════════════ PRINT CONTROLS (screen only) ══════════════════════ -->
+<div class="controls no-print" style="position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid var(--accent);padding:12px;z-index:100;">
+  <button onclick="window.print()">Print All Sheets</button>
+  <span style="font-size:10pt;color:#666;">| 16 character sheets | A4 portrait | Tip: use "Save as PDF" in print dialog</span>
+</div>
+
+</body>
+</html>

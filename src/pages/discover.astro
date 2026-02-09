@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TokenDiscovery from '../islands/TokenDiscovery';
+---
+
+<Layout title="Discover Tokens | RPGCast.xyz">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Discover Tokens</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">
+        Browse curated pump.fun tokens aligned with the Quillverse ecosystem.
+        Filter by TEK8 guild, Rainbow Road, or verification status.
+      </p>
+    </div>
+
+    <TokenDiscovery client:load />
+  </div>
+</Layout>

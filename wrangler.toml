@@ -1,0 +1,8 @@
+name = "rpgcast-xyz"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat_v2"]
+pages_build_output_dir = "dist"
+
+[vars]
+PUBLIC_SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com"
+PUBLIC_API_BASE_URL = "https://rpgcast.xyz"
